@@ -57,28 +57,31 @@ public class ProductCursorAdaptor extends CursorAdapter {
         productSaleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Uri itemUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, productId);
-                buyProduct(context, itemUri, productQuantity);
+                onSellButtonClicked(productId, productQuantity, context);
             }
         });
+        productSaleButton.setEnabled(productQuantity>0);
     }
 
-    private void buyProduct(Context context, Uri itemUri, int productQuantity) {
-
-        int newQuantity = (productQuantity >= 1) ? productQuantity - 1 : 0;
-        ContentValues values = new ContentValues();
-
-        if (newQuantity == 0) {
+    private void onSellButtonClicked(int productId, int productQuantity, Context context) {
+        Uri itemUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, productId);
+        if (productQuantity > 0) {
+            removeProductFromDB(context, itemUri, productQuantity);
+            Toast.makeText(context, "Product sold", Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(context, "not possible to sell", Toast.LENGTH_SHORT).show();
+
         }
-            values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
-            int numRowsUpdated = context.getContentResolver().update(itemUri, values, null, null);
+    }
 
-            if (newQuantity > 0) {
-                Toast.makeText(context, "Product sold", Toast.LENGTH_SHORT).show();
-            }
+    private void removeProductFromDB(Context context, Uri itemUri, int productQuantity) {
+        if (productQuantity <= 0) {
+            throw new IllegalArgumentException("Can't sell out-of-stock product.");
+        }
 
-
+        ContentValues values = new ContentValues();
+        int newQuantity = productQuantity - 1;
+        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
+        context.getContentResolver().update(itemUri, values, null, null);
     }
 }
