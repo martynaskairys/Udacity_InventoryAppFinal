@@ -35,9 +35,9 @@ public class ProductCursorAdaptor extends CursorAdapter {
     public void bindView(View view, final Context context, Cursor cursor) {
 
 
-        TextView productNameTextView = (TextView) view.findViewById(R.id.productName);
-        final TextView productQuantityTextView = (TextView) view.findViewById(R.id.productQuantity);
-        TextView productPriceTextView = (TextView) view.findViewById(R.id.productPrice);
+        TextView productNameTextView = (TextView) view.findViewById(R.id.product_name);
+        final TextView productQuantityTextView = (TextView) view.findViewById(R.id.product_quantity);
+        TextView productPriceTextView = (TextView) view.findViewById(R.id.product_price);
         Button productSaleButton = (Button) view.findViewById(R.id.sale_button);
 
         final int productId = cursor.getInt(cursor.getColumnIndex(ProductContract.ProductEntry._ID));
@@ -68,16 +68,17 @@ public class ProductCursorAdaptor extends CursorAdapter {
 
         int newQuantity = (productQuantity >= 1) ? productQuantity - 1 : 0;
         ContentValues values = new ContentValues();
-        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
-        int numRowsUpdated = context.getContentResolver().update(itemUri, values, null, null);
 
-        if (numRowsUpdated > 0) {
-            Toast.makeText(context, "Product sold", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Not possible to sell", Toast.LENGTH_SHORT).show();
+        if (newQuantity == 0) {
+            Toast.makeText(context, "not possible to sell", Toast.LENGTH_SHORT).show();
         }
+            values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY, newQuantity);
+            int numRowsUpdated = context.getContentResolver().update(itemUri, values, null, null);
+
+            if (newQuantity > 0) {
+                Toast.makeText(context, "Product sold", Toast.LENGTH_SHORT).show();
+            }
+
 
     }
-
-
 }

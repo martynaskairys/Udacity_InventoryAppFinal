@@ -21,7 +21,7 @@
             android:id="@+id/edit_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/give_your_product_name" />
+            android:hint="@string/give_your_product_a_name" />
 
     </LinearLayout>
 
@@ -33,31 +33,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/price" />
+            android:text="@string/price_of_the_product" />
 
         <EditText
             android:id="@+id/edit_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/write_price"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="5" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:padding="32dp"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="32dp">
 
         <Button
-            android:layout_width="64dp"
             android:id="@+id/decrease_button"
+            android:layout_width="64dp"
             android:layout_height="64dp"
-            android:text="@string/minus" />
+            android:text="@string/minus_sign" />
 
         <EditText
             android:id="@+id/edit_product_quantity"
@@ -65,32 +66,53 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:hint="@string/write_quantity"
-            android:inputType="number" />
+            android:hint="@string/write_items_quantity"
+            android:inputType="number"
+            android:maxLength="5" />
 
         <Button
+            android:id="@+id/increase_button"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:id="@+id/increase_button"
-            android:text="@string/plus" />
+            android:text="@string/plus_sign" />
+
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_gravity="center"
-        android:id="@+id/add_image"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_image" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/add_image"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/add_image" />
+
+        <Button
+            android:id="@+id/contact_provider"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/contact_provider" />
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_marginTop="16dp"
+        android:layout_width="128dp"
         android:layout_height="128dp"
         android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:layout_width="128dp"
-        android:contentDescription="@string/picture_of_product" />
-
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/picture_of_a_product"
+        android:scaleType="centerCrop" />
 
 </LinearLayout>

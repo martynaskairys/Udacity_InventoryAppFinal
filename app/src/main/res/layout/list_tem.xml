@@ -6,14 +6,6 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:layout_weight="1"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/thumbnail_of_chosen_product_image" />
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/productName"
+            android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -37,7 +29,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/productQuantityText"
+                android:id="@+id/product_quantityText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -47,9 +39,8 @@
                 android:paddingStart="0dp"
                 android:text="@string/items_left" />
 
-
             <TextView
-                android:id="@+id/productQuantity"
+                android:id="@+id/product_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -63,7 +54,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/productPriceText"
+                android:id="@+id/product_price_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -71,20 +62,18 @@
                 android:paddingLeft="0dp"
                 android:paddingRight="4dp"
                 android:paddingStart="0dp"
-                android:text="@string/eur" />
+                android:text="@string/eur_currency" />
 
             <TextView
-                android:id="@+id/productPrice"
+                android:id="@+id/product_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/_77" />
+                android:text="@string/number_dummy" />
 
         </LinearLayout>
 
-
     </LinearLayout>
-
 
     <Button
         android:id="@+id/sale_button"
@@ -93,6 +82,5 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/sell" />
-
 
 </LinearLayout>

@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,6 +36,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static android.R.attr.name;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -56,10 +57,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private Button mBtnAddImage;
     private ImageView mImageView;
     private Uri imageUri;
+    private Button mButtonContactProvider;
 
     private byte[] mImageByteArray;
 
     private ProductDbHelper dbHelper;
+
+    private String nameString;
 
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -78,6 +82,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
+        mButtonContactProvider = (Button) findViewById(R.id.contact_provider);
 
         if (mCurrentProductUri == null) {
             setTitle("Add a product");
@@ -175,28 +180,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        if (savedInstanceState.containsKey(STATE_URI) && !savedInstanceState.getString(STATE_URI)
-                .equals("")) {
-//            mUri = Uri.parse(savedInstanceState.getString(STATE_URI));
-            mCurrentProductUri = Uri.parse(savedInstanceState.getString(STATE_URI));
-
-            ViewTreeObserver viewTreeObserver = mImageView.getViewTreeObserver();
-            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    mImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                    mImageView.setImageBitmap(getBitmapFromUri(mUri));
-                    mImageView.setImageBitmap(getBitmapFromUri(mCurrentProductUri));
-                }
-            });
-
-        }
-    }
-
     public Bitmap getBitmapFromUri(Uri uri) {
 
         if (uri == null || uri.toString().isEmpty())
@@ -234,7 +217,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     private void saveProduct() {
 
-        String nameString = mNameEditText.getText().toString().trim();
+        nameString = mNameEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
 
@@ -320,15 +303,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             case R.id.action_save:
                 saveProduct();
-//                finish();
                 return true;
 
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
-                return true;
-
-            case R.id.contact_provider:
-                contactProvider();
                 return true;
 
             case android.R.id.home:
@@ -350,15 +328,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
-    private void contactProvider() {
+    private void contactProvider(String[] strings, String s) {
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Need extra products");
-        intent.putExtra(Intent.EXTRA_TEXT, "Dear Provider, please send us more stuff");
-        Intent mail = Intent.createChooser(intent, null);
-        startActivity(mail);
-
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, strings);
+        intent.putExtra(Intent.EXTRA_SUBJECT, s);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -392,7 +370,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int priceColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE);
             int pictureColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.KEY_IMAGE);
 
-            String name = cursor.getString(nameColumnIndex);
+            final String name = cursor.getString(nameColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             int price = cursor.getInt(priceColumnIndex);
 
@@ -401,6 +379,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Integer.toString(price));
             mImageView.setImageURI(imageUri);
+
+            mButtonContactProvider.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    contactProvider(new String[]{"mk@mk.com"}, "Order for product: " + name);
+                }
+            });
         }
     }
 
@@ -482,11 +467,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mImageView = (ImageView) findViewById(R.id.image_view);
                 mImageView.setImageBitmap(bitmap);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 }
