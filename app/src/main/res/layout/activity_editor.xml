@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.martynaskairys.udacity_inventoryappfinal.EditorActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product_name" />
+
+        <EditText
+            android:id="@+id/edit_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/give_your_product_name" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/price" />
+
+        <EditText
+            android:id="@+id/edit_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/write_price"
+            android:inputType="number" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="32dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="64dp"
+            android:id="@+id/decrease_button"
+            android:layout_height="64dp"
+            android:text="@string/minus" />
+
+        <EditText
+            android:id="@+id/edit_product_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="@string/write_quantity"
+            android:inputType="number" />
+
+        <Button
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:id="@+id/increase_button"
+            android:text="@string/plus" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center"
+        android:id="@+id/add_image"
+        android:layout_height="wrap_content"
+        android:text="@string/add_image" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_marginTop="16dp"
+        android:layout_height="128dp"
+        android:layout_gravity="center"
+        android:scaleType="centerCrop"
+        android:layout_width="128dp"
+        android:contentDescription="@string/picture_of_product" />
+
+
+</LinearLayout>
